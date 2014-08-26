@@ -33,14 +33,12 @@ int main()
 	int stolbec = 8;
 	int stroka = 16;
 	int  i, j;
-	int y = 0;
+	int x = 0;
 	for (j = 0; j < stolbec; j++){
-		int x = 0 + y;
 		for (i = 0; i < stroka; i++){
 			printf("%d(%c) ", x,x);
-			x += 8;
+			x += 1;
 		}
-		y += 1;
 		printf("\n\n");
 	}
 	printf("\n\n");
