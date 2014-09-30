@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+int main(){
+srand(time(NULL));
+long long int const ludi=100000;
+int const bingo=5;
+int q;
+int win1=0,win2=0,win3=0;
+int array[bingo];
+int igrok[bingo];
+int narod[ludi][bingo];
+
+for(int i=0;i<ludi;i++){
+    for(int j=0;j<bingo;j++){
+          narod[i][j]=rand()%36+1;
+}
+}
+printf("enter five numbers from 1 to 36");
+printf("\n");
+for(int i=0;i<bingo;i++){
+        scanf("%d",&q);
+    igrok[i]=q;
+}
+for(int i=0;i<bingo;i++){
+array[i]=rand()%36+1;
+}
+printf("Generated numbers    ");
+for(int i=0;i<bingo;i++){
+printf("%d ",array[i]);
+}
+printf("\n");
+printf("Your numbers         ");
+for(int i=0;i<bingo;i++){
+printf("%d ",igrok[i]);
+}
+printf("\n");
+
+int count=0;
+for(int i=0;i<bingo;i++){
+if(igrok[i]==array[i]){
+    count+=1;
+}
+}
+if(count<3){
+    printf("You loose!           %d",count);
+}
+if(count==3){
+    printf("You win 10 rubley!");
+}
+ if(count==4){
+    printf("You win 1000 rubley!");
+}
+ if(count==5){
+    printf("You win 1000000 rubley!");
+}
+for(int i=0;i<ludi;i++){
+        count=0;
+    for(int j=0;j<bingo;j++){
+            if(narod[i][j]==array[j]){
+          count+=1;
+    if(count==3){
+        win1+=1;
+}
+    if(count==4){
+        win2+=1;
+}
+    if(count==5){
+        win3+=1;
+}
+            }
+}
+}
+printf("\n");
+
+if(win1==0){
+   printf("There is no winner 10 rubley\n");
+}else{printf("%d winner(s) by 10 rubley\n",win1);
+}
+
+if(win2==0){
+   printf("There is no winner 1000 rubley\n");
+}else{printf("%d  winner(s) by 1000 rubley\n",win2);
+}
+
+if(win3==0){
+   printf("There is no winner 1000000 rubley\n");
+}else{printf("%d winner(s) by 1000000 rubley\n",win3);
+}
+return 0;
+}
