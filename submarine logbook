@@ -1,0 +1,88 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+using namespace std;
+const int maxMessageSize = 100;
+const int maxNumberOfMessages = 100;
+struct journal{
+char journal[100];
+char messages[100];
+};
+
+//struct record [maxNumberOfMessages-1]; // Журнал
+int nRecords ;
+
+
+int main(){
+    int vvodDannih;
+
+     FILE *in;
+    while(1){
+
+    printf("--------------------------\n");
+printf("1. View the log\n2. Add message\n3. Delete message\n0. Exit\n\nEnter value from 0 to 3\n");
+/*scanf("      %d",&vvodDannih);
+if((vvodDannih<0)||(vvodDannih>3)){
+    printf("--------------------------\n");
+    printf("   Enter value from 0 to 3\n");
+    //printf("--------------------------");
+}*/
+
+char choice[100];
+fgets(choice, 99, stdin);
+int ch;
+ch = -1;
+sscanf(choice, "%d", &ch);
+switch(ch){
+    case 0:
+    return 0;
+
+    case 1:
+        char array[200];
+    printf("--------------------------\n");
+    printf("   Logbook:\n");
+    printf("--------------------------\n");
+    //printf("New messages %d\n\n",nRecords);
+    in=fopen("x.txt","r");
+    if (in == NULL) perror("Error opening file");
+else {
+while (!feof(in)){
+if (fgets(array, 200, in) != NULL){
+//array[strlen(array) - 1] = 0;
+printf("   %s",  array);
+
+}
+}
+}
+fclose (in);
+break;
+
+
+    case 2:
+    printf("--------------------------\n");
+    printf("   New message:\n");
+   // printf("--------------------------\n");
+
+    char buffer[100];
+
+buffer[strlen(buffer) - 1] = 0;
+fgets (buffer,100,stdin);
+time_t timer = time(NULL);
+    char *y=ctime(&timer);
+
+   in = fopen ("x.txt","a");
+
+fprintf (in, "%s %s\n",y,buffer);
+//fwrite (buffer , sizeof(time_t), sizeof&(timer), in);
+   //fputs (buffer,in);
+   fclose (in);
+   nRecords++;
+   break;
+}
+    }
+return 0;
+}
+
+
