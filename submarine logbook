@@ -63,7 +63,6 @@ break;
     case 2:
     printf("--------------------------\n");
     printf("   New message:\n");
-   // printf("--------------------------\n");
 
     char buffer[100];
 
