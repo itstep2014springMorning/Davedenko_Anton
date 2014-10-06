@@ -1,35 +1,87 @@
-#include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
 #include <string.h>
-using namespace std;
-const int maxMessageSize = 100;
-const int maxNumberOfMessages = 100;
+#include <locale.h>
+
 struct journal{
 char journal[100];
 char messages[100];
 };
-
-//struct record [maxNumberOfMessages-1]; // Журнал
 int nRecords ;
+
+void showJournal(){
+    printf("--------------------------\n");
+    printf("   Журнал сообщения:\n");
+    printf("--------------------------\n");
+    int count=0;
+    char array[200];
+ FILE *in;
+     in=fopen("x.txt","r");
+    if (in == NULL) perror("Error opening file");
+else {
+while (!feof(in)){
+
+if (fgets(array, 200, in) != NULL){
+
+printf(" %s",  array);
+}
+
+}
+
+}
+fclose (in);
+}
+
+void addMessage (){
+    while(1){
+ printf("--------------------------\n");
+    printf("   Новое сообщение:\n");
+FILE *in;
+     in=fopen("x.txt","r");
+    char buffer[100];
+buffer[strlen(buffer) - 1] = 0;
+fgets (buffer,100,stdin);
+time_t timer = time(NULL);
+    char *y=ctime(&timer);
+   in = fopen ("x.txt","a");
+fprintf (in, "%s %s\n",y,buffer);
+   fclose (in);
+   nRecords++;
+   break;
+    }
+}
+
+void deleteMessage (){
+    int del;
+    printf("Введите № записи, которую вы хотите удалить: ");
+    scanf("%d",&del);
+    char tempArray[200];
+char array[200];
+ FILE *in;
+ FILE *temp;
+ temp=fopen("t.txt","w");
+     in=fopen("x.txt","r");
+    if (in == NULL) perror("Error opening file");
+else {
+while (!feof(in)){
+if (fgets(array, 200, in) != NULL){
+       nRecords++;
+
+}
+}
+printf("--------------------------\n");
+        printf("Запись № %d удалена\n",del);
+}
+fclose (in);
+}
 
 
 int main(){
-    int vvodDannih;
-
-     FILE *in;
+    setlocale( LC_ALL, "rus" );
     while(1){
-
     printf("--------------------------\n");
-printf("1. View the log\n2. Add message\n3. Delete message\n0. Exit\n\nEnter value from 0 to 3\n");
-/*scanf("      %d",&vvodDannih);
-if((vvodDannih<0)||(vvodDannih>3)){
-    printf("--------------------------\n");
-    printf("   Enter value from 0 to 3\n");
-    //printf("--------------------------");
-}*/
-
+printf("1. Просмотреть журнал\n2. Новое сообщение\n3. Удалить сообщение\n0. Выход\n\nВведите значение от 0 до 3\n");
 char choice[100];
 fgets(choice, 99, stdin);
 int ch;
@@ -40,48 +92,17 @@ switch(ch){
     return 0;
 
     case 1:
-        char array[200];
-    printf("--------------------------\n");
-    printf("   Logbook:\n");
-    printf("--------------------------\n");
-    //printf("New messages %d\n\n",nRecords);
-    in=fopen("x.txt","r");
-    if (in == NULL) perror("Error opening file");
-else {
-while (!feof(in)){
-if (fgets(array, 200, in) != NULL){
-//array[strlen(array) - 1] = 0;
-printf("   %s",  array);
-
-}
-}
-}
-fclose (in);
-break;
-
+       showJournal();
+    break;
 
     case 2:
-    printf("--------------------------\n");
-    printf("   New message:\n");
+        addMessage ();
+    break;
 
-    char buffer[100];
-
-buffer[strlen(buffer) - 1] = 0;
-fgets (buffer,100,stdin);
-time_t timer = time(NULL);
-    char *y=ctime(&timer);
-
-   in = fopen ("x.txt","a");
-
-fprintf (in, "%s %s\n",y,buffer);
-//fwrite (buffer , sizeof(time_t), sizeof&(timer), in);
-   //fputs (buffer,in);
-   fclose (in);
-   nRecords++;
-   break;
+    case 3:
+        deleteMessage();
+        break;
 }
     }
 return 0;
 }
-
-
