@@ -4,6 +4,7 @@
 #include <string.h>
 #include <locale.h>
 
+
 struct journal{
 char journal[100];
 char messages[100];
@@ -23,13 +24,17 @@ else {
 while (!feof(in)){
 
 if (fgets(array, 200, in) != NULL){
-
+    count++;}
+    if(count==0){
+        printf("\n   No records\n\n");
+    }else{
 printf(" %s",  array);
+    }
+}
 }
 
-}
 
-}
+
 fclose (in);
 }
 
@@ -45,7 +50,7 @@ fgets (buffer,100,stdin);
 time_t timer = time(NULL);
     char *y=ctime(&timer);
    in = fopen ("x.txt","a");
-fprintf (in, "%s %s\n",y,buffer);
+fprintf (in, "%s %s\n\n2",y,buffer);
    fclose (in);
    nRecords++;
    break;
@@ -56,22 +61,59 @@ void deleteMessage (){
     int del;
     printf("Введите № записи, которую вы хотите удалить: ");
     scanf("%d",&del);
+      /*1 открываем файл на чтение
+        2 открываем ещё один файл на запись (новый, с временным именем)
+        3 счетчик записей = 0
+        4 пока в входном файле есть записи
+            читаем одну запись
+        5 увеличиваем счетчик записей на 1
+        6 если значение счетчика не совпадает с номером нужной записи,
+          то прочитанную запись пишем в новый файл (иначе ничего не делаем,
+          тем самым эта запись не попадет в новый файл и по факту будет удалена)
+        7 конец цикла "пока - строка 4"
+        8 закрываем оба файла.
+        9 первый файл удаляем, второй (новый) переименовываем.*/
+
+        char str [80];
+  float f;
+  FILE * pFile;
+
+  pFile = fopen ("myfile.txt","w");
+  fprintf (pFile, "%f %s", 3.16, "PI");
+  rewind (pFile);
+  fscanf (pFile, "%f", &f);
+  fscanf (pFile, "%s", str);
+  fclose (pFile);
+  printf ("I have read: %f and %s \n",f,str);
+
+
+
+
+
+
+
+
     char tempArray[200];
 char array[200];
  FILE *in;
  FILE *temp;
  temp=fopen("t.txt","w");
      in=fopen("x.txt","r");
+     int count=0;
     if (in == NULL) perror("Error opening file");
 else {
 while (!feof(in)){
 if (fgets(array, 200, in) != NULL){
-       nRecords++;
+       count++;
+       if(del==count/3){
+        break;
+       }
 
 }
 }
+
 printf("--------------------------\n");
-        printf("Запись № %d удалена\n",del);
+        printf("Запись № %d удалена\n",count/3);
 }
 fclose (in);
 }
