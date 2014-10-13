@@ -8,7 +8,6 @@ int nrecords;
 
 void numStrings()
 {
-    int count=6;
     char array[401];
     FILE *in;
     in=fopen("x.txt","r");
@@ -36,7 +35,8 @@ void showJournal()
     printf("--------------------------\n");
     printf("   Logbook:\n");
     printf("--------------------------\n");
-    int count=0;
+    int count=2;
+    int t=1;
     char array[401];
     FILE *in;
     in=fopen("x.txt","r");
@@ -51,6 +51,10 @@ void showJournal()
             if (fgets(array, 400, in) != NULL)
             {
                 count++;
+                        if(count%3==0){
+                printf("%d.",t);
+                t++;
+                }
                 printf(" %s",array);
             }
             else
@@ -77,14 +81,68 @@ void addMessage ()
     fgets (array,400,stdin);
     time_t timer = time(NULL);
     in = fopen ("x.txt","a");
-    fprintf (in, "%d. %s   %s\n",nrecords/3,ctime(&timer),array);
+    fprintf (in, "%s   %s\n",ctime(&timer),array);
     fclose (in);
 }
 
 
 void deleteMessage()
 {
-    printf("not ready\n");
+    FILE *in;
+    FILE *tmp;
+    int delit;
+    int count=1,nums;
+    printf("--------------------------\n");
+    printf("   Delete message:\n");
+    printf("--------------------------\n");
+    printf("Enter number of message: ");
+    scanf("%d",&delit);
+    delit=delit-1;
+    char array[401];
+    char arrayTmp1[401];
+    char arrayTmp2[401];
+    in=fopen("x.txt","r");
+    tmp=fopen("temp.txt","w");
+    if (in == NULL)
+    {
+        perror("Error opening file x.txt\n");
+    }
+    else
+    {
+        while (!feof(in))
+        {
+            if (fgets(array, 400, in) != NULL)
+            {
+                    count++;
+                }
+                if(delit!=count/3){
+                    fprintf (tmp, "%s",array);
+                }
+            }
+        }
+        fclose(in);
+        fclose(tmp);
+
+        in=fopen("x.txt","w");
+    tmp=fopen("temp.txt","r");
+        if (tmp == NULL)
+    {
+        perror("Error opening file temp.txt\n");
+    }
+    else
+    {
+        while (!feof(tmp))
+        {
+            if (fgets(array, 400, tmp) != NULL)
+            {
+
+                    fprintf (in, "%s",array);
+                }
+            }
+        }
+    fclose(tmp);
+    fclose(in);
+    printf(" %d message is deleted\n",delit);
 }
 
 
