@@ -1,0 +1,122 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <string.h>
+#include <math.h>
+#include <locale.h>
+
+int monthDays[12]= {31,28,31,30,31,30,31,31,30,31,30,31};
+char *daysNames[7]= {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+static char* monthNames[12]= {"January","February","March","April","May","June","July","August","September","October","November","December"};
+
+struct Date
+{
+    int y;
+    int m;
+    int d;
+};
+
+int leapYear(int y)
+{
+    int x =(y%400==0)||((y%4==0)&&(y%100!=0));
+    return x;
+}
+
+int DateToInt(struct Date a)
+{
+    int N=0;
+    int x=0;
+    for (int j=2000; j< a.y; j++) // whole years
+    {
+        x=leapYear(j);
+        N+=365+x;
+    }
+    for (int i=0; i<a.m; i++)
+    {
+        int monthPlusDay=leapYear(a.y);
+        if(i==1&&monthPlusDay==1)
+        {
+            N++;
+        }
+        N+=monthDays[i-1];
+    }
+    N+=a.d;
+    return N;
+}
+
+void dayOfWeek(struct Date a)
+{
+    int b=(DateToInt(a)-3)%7;
+    printf("%s\n\n",daysNames[b]);
+}
+
+void printDate(struct Date a)
+{
+
+    printf("%d %s %d\n\n",a.y,monthNames[a.m-1],a.d);
+}
+
+void PrintDaysNames( )
+{
+    printf("\n----------------------------\n");
+    for (int i=0; i<7; i++)
+    {
+        printf("%s ",daysNames[i]);
+    }
+    printf("\n----------------------------\n");
+}
+
+void PrintMonth(struct Date a)
+{
+    int b=(DateToInt(a)-5)%7;
+    int leap;
+    leap=leapYear(a.y);
+    printf("\n");
+    printf("\n%s %d",monthNames[a.m-1],a.y);
+    PrintDaysNames();
+    for(int i=0; i<b; i++)
+    {
+        printf("    ");
+    }
+    int EndOfWeek=b;
+    int dni=monthDays[a.m-1];
+    if((28==monthDays[a.m-1])&&(leap==1))
+    {
+        dni++;
+    }
+    for(int i=1; i<=dni; i++)
+    {
+        if(((i==8-b)||(i==15-b))||((i==22-b)||(i==29-b))||(i==36-b))
+        {
+            printf("\n");
+        }
+        if (i<10)
+        {
+            printf("%d   ",i);
+        }
+        else
+        {
+            printf("%d  ",i);
+        }
+    }
+}
+
+int main()
+{
+    int month=1;
+    int year;
+    printf("Enter the year: ");
+    scanf("%d",&year);
+    for (int i=0; i<12; i++)
+    {
+        struct Date now;
+        now.y=year;
+        now.m=month;
+        now.d=17;
+        month++;
+        PrintMonth(now);
+    }
+    printf("\n");
+    return 0;
+}
